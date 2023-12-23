@@ -14,7 +14,7 @@ const Post =require('./models/Post')
 
 const salt = bcrypt.genSaltSync(10);
 const secret='qwqdwdwonv90voivow90v0wvw9v09vmmPLd';
-app.use(cors({credentials:true,origin:'http://localhost:3000'}));
+app.use(cors({credentials:true,origin:'https://myblogkarthi.onrender.com'}));
 app.use(express.json())
 app.use('/uploads',express.static(__dirname+'/uploads'))
 
