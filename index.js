@@ -14,7 +14,11 @@ const Post =require('./models/Post')
 
 const salt = bcrypt.genSaltSync(10);
 const secret='qwqdwdwonv90voivow90v0wvw9v09vmmPLd';
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'https://myblogkarthi.netlify.app'
+}));
+
 app.use(express.json())
 app.use('/uploads',express.static(__dirname+'/uploads'))
 
