@@ -26,36 +26,38 @@ app.use(cookieParser());
 
 mongoose.connect('mongodb+srv://karthikeyanskarthikeyans000:BXPCUIZTgk5V5odu@cluster0.z4bvdlv.mongodb.net/?retryWrites=true&w=majority')
 
-try{
-    app.post('/register',async(req,res)=>{
-        const{username,password,phoneNumber}=req.body
-    
-        const existingUser = await User.findOne({ username });
-    
-        if (existingUser) {
-           
-            return res.status(400).json({ error: 'Username already taken' });
-        }
-    
-        const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
-    
-        if (existingUserWithPhoneNumber) {
-            
-            return res.status(400).json({ error: 'Phone Number already taken' });
-        }
-    
-        const data=await User.create({
-            username,
-            password:bcrypt.hashSync(password, salt),
-            phoneNumber
-        })
-        res.json(data)
-    })
+try {
+  app.post('/register', async (req, res) => {
+      const { username, password, phoneNumber } = req.body;
 
-}catch(err){
-    res.status(400).json(err.message)
+      // Add a check for the minimum length of the username
+      if (username.length < 4) {
+          return res.status(400).json({ error: 'Username must be at least 4 characters long' });
+      }
+
+      const existingUser = await User.findOne({ username });
+
+      if (existingUser) {
+          return res.status(400).json({ error: 'Username already taken' });
+      }
+
+      const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
+
+      if (existingUserWithPhoneNumber) {
+          return res.status(400).json({ error: 'Phone Number already taken' });
+      }
+
+      const data = await User.create({
+          username,
+          password: bcrypt.hashSync(password, salt),
+          phoneNumber
+      });
+
+      res.json(data);
+  });
+} catch (err) {
+  res.status(400).json(err.message);
 }
-
 try{
     app.post('/login',async(req,res)=>{
 
