@@ -16,7 +16,7 @@ const salt = bcrypt.genSaltSync(10);
 const secret='qwqdwdwonv90voivow90v0wvw9v09vmmPLd';
 app.use(cors({
   credentials: true,
-  origin: 'https://myblogkarthi.netlify.app'
+  origin: ['https://myblogkarthi.netlify.app', 'http://localhost:3000']
 }));
 
 app.use(express.json())
