@@ -95,24 +95,31 @@ try{
     console.log(err.message)
 }
 
-try{
-    app.get('/profile',(req,res)=>{
-        const{token}=req.cookies
+try {
+  app.get('/profile', async (req, res) => {
+    try {
+      const {token} = req.cookies;
 
-        jwt.verify(token,secret,{},(err,info)=>{
-            if (err) {
-                console.error('JWT Verification Error:', err.message);
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
-            res.json(info)
-        })
-        
-    })
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-
-}catch(err){
-    console.log(err.message)
+      jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+          console.error('JWT Verification Error:', err.message);
+          return res.status(401).json({ error: 'Unauthorized' });
+        }
+        res.json(info);
+      });
+    } catch (err) {
+      console.error('Error:', err.message);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+} catch (err) {
+  console.log(err.message);
 }
+
 
 app.post('/logout',(req,res)=>{
     res.cookie('token','').json('ok')
