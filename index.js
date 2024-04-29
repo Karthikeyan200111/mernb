@@ -143,15 +143,15 @@ app.post('/post',upload.single('files'),async(req,res)=>{
 
   console.log(token);
 
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized: No JWT token provided' });
-    }
+    // if (!token) {
+    //   return res.status(401).json({ error: 'Unauthorized: No JWT token provided' });
+    // }
 
-    jwt.verify(token,secret,{},async(err,info)=>{
-        if (err) {
-            console.error('JWT Verification Error:', err.message);
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+    // jwt.verify(token,secret,{},async(err,info)=>{
+    //     if (err) {
+    //         console.error('JWT Verification Error:', err.message);
+    //         return res.status(401).json({ error: 'Unauthorized' });
+    //     }
 
         const{title,summary,content}=req.body
    const postDoc= await Post.create({
