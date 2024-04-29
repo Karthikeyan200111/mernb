@@ -99,6 +99,7 @@ try {
   app.get('/profile', async (req, res) => {
     try {
       const {token} = req.cookies;
+      
 
       if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -139,6 +140,8 @@ app.post('/post',upload.single('files'),async(req,res)=>{
     fs.renameSync(path,newPath)
 
     const{token}=req.cookies
+
+  console.log(token);
 
     jwt.verify(token,secret,{},async(err,info)=>{
         if (err) {
