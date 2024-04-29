@@ -143,6 +143,10 @@ app.post('/post',upload.single('files'),async(req,res)=>{
 
   console.log(token);
 
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized: No JWT token provided' });
+    }
+
     jwt.verify(token,secret,{},async(err,info)=>{
         if (err) {
             console.error('JWT Verification Error:', err.message);
@@ -190,6 +194,8 @@ app.put('/post', upload.single('files'), async (req, res) => {
       }
   
       const { token } = req.cookies;
+    
+
   
       jwt.verify(token, secret, {}, async (err, info) => {
         if (err) {
